@@ -44,6 +44,15 @@ class _TransactionFormState extends State<TransactionForm> {
               onSubmitted: (_) => _submitForm(),
             ),
             Row(
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Icon(Icons.calendar_today),
+                ),
+                Text('Nenhuma Data Selecionada!'),
+              ],
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(

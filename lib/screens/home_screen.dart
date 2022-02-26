@@ -14,24 +14,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Transaction> _transactions = [
-    Transaction(
-      id: 't0',
-      title: 'Tênis de corrida',
-      value: 158.76,
+    /*Transaction(
+      id: 't1',
+      title: 'Conta de Luz',
+      value: 87.21,
       date: DateTime.now().subtract(Duration(days: 3)),
     ),
     Transaction(
-      id: 't1',
-      title: 'Conta de Água',
-      value: 156.33,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ),
-    Transaction(
       id: 't2',
-      title: 'Conta de luz',
-      value: 198.51,
-      date: DateTime.now(),
-    ),
+      title: 'Lanche',
+      value: 20.00,
+      date: DateTime.now().subtract(Duration(days: 5)),
+    ),*/
   ];
 
   List<Transaction> get _recentTransaction {
