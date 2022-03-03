@@ -26,11 +26,11 @@ class TransactionList extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                       radius: 30,
                       child: Padding(
-                        padding: EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(6),
                         child: FittedBox(
                             child: Text(
                           'R\$ ${transactions[index].value.toString()}',
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         )),
                       ),
                     ),

@@ -13,20 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Transaction> _transactions = [
-    /*Transaction(
-      id: 't1',
-      title: 'Conta de Luz',
-      value: 87.21,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Lanche',
-      value: 20.00,
-      date: DateTime.now().subtract(Duration(days: 5)),
-    ),*/
-  ];
+  final List<Transaction> _transactions = [];
 
   List<Transaction> get _recentTransaction {
     return _transactions.where((transaction) {
@@ -35,12 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
     setState(() {
       _transactions.add(newTransaction);
