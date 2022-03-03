@@ -44,6 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((transaction) {
+        return transaction.id == id;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Chart(_recentTransaction),
-            TransactionList(_transactions),
+            TransactionList(_transactions, _deleteTransaction),
           ],
         ),
       ),
