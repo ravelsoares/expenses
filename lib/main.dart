@@ -2,7 +2,9 @@ import 'package:expenses/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-main() => runApp(ExpensesApp());
+main(){
+  runApp(ExpensesApp());
+}
 
 class ExpensesApp extends StatelessWidget {
   ExpensesApp({Key? key}) : super(key: key);
