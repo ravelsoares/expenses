@@ -67,6 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final TransactionRespository _transactionRespository =
       TransactionRespository();
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransaction {
     return _transactions.where((transaction) {
       return transaction.date
@@ -113,7 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _transactions = value;
       });
-      
     });
   }
 
@@ -125,33 +126,50 @@ class _HomeScreenState extends State<HomeScreen> {
         style: TextStyle(fontSize: 20 * MediaQuery.of(context).textScaleFactor),
       ),
       actions: [
+        if (MediaQuery.of(context).orientation == Orientation.landscape)
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+            icon: Icon(_showChart ? Icons.bar_chart : Icons.list),
+          ),
         IconButton(
           onPressed: () => _openTransactionFormModal(context),
           icon: const Icon(Icons.add),
         ),
       ],
     );
+
     final availableheight = MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
+
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: availableheight * 0.3,
-              child: Chart(_recentTransaction),
-            ),
-            SizedBox(
-                height: availableheight * 0.7,
-                child: TransactionList(_transactions, _deleteTransaction)),
+            if (_showChart || !isLandscape)
+              SizedBox(
+                height: isLandscape
+                    ? availableheight * 0.7
+                    : availableheight * 0.25,
+                child: Chart(_recentTransaction),
+              ),
+            if (!_showChart || !isLandscape)
+              SizedBox(
+                  height: availableheight * 0.75,
+                  child: TransactionList(_transactions, _deleteTransaction)),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () => _openTransactionFormModal(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
