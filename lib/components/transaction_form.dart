@@ -41,46 +41,53 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Título'),
-              onSubmitted: (_) => _submitForm(),
-            ),
-            TextField(
-              controller: _valueController,
-              decoration: const InputDecoration(labelText: 'Valor (R\$)'),
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => _submitForm(),
-            ),
-            Row(
-              children: [
-                TextButton(
-                  onPressed: _showDatePicker,
-                  child: const Icon(Icons.calendar_today),
-                ),
-                Text(DateFormat('dd/MM/y').format(_selectedDate)),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: _submitForm,
-                  child: const Text(
-                    'Nova Transação',
-                    style: TextStyle(color: Colors.purple),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 10.0,
+            left: 10,
+            right: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: 'Título'),
+                onSubmitted: (_) => _submitForm(),
+              ),
+              TextField(
+                controller: _valueController,
+                decoration: const InputDecoration(labelText: 'Valor (R\$)'),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) => _submitForm(),
+              ),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: _showDatePicker,
+                    child: const Icon(Icons.calendar_today),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Text(DateFormat('dd/MM/y').format(_selectedDate)),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: _submitForm,
+                    child: const Text(
+                      'Nova Transação',
+                      style: TextStyle(color: Colors.purple),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

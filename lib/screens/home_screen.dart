@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:expenses/repositories/transaction_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -14,56 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Transaction> _transactions = [
-    /*Transaction(
-      id: 't1',
-      title: 'Conta 1',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta 2',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'Conta 3',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't4',
-      title: 'Conta 4',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't5',
-      title: 'Conta 5',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't6',
-      title: 'Conta 6',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't7',
-      title: 'Conta 7',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't8',
-      title: 'Conta 8',
-      value: 100,
-      date: DateTime.now(),
-    ),*/
-  ];
+  List<Transaction> _transactions = [];
   final TransactionRespository _transactionRespository =
       TransactionRespository();
 
@@ -92,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (_) {
         return TransactionForm(_addTransaction);
@@ -118,6 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Widget _getIconButton(Function() function, IconData icon) {
+    return Platform.isIOS
+        ? GestureDetector(
+            onTap: function,
+            child: Icon(icon),
+          )
+        : IconButton(onPressed: function, icon: Icon(icon));
+  }
+
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
@@ -138,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
         IconButton(
           onPressed: () => _openTransactionFormModal(context),
           icon: const Icon(Icons.add),
-        ),
+        )
       ],
     );
 
@@ -148,31 +112,63 @@ class _HomeScreenState extends State<HomeScreen> {
 
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (_showChart || !isLandscape)
-              SizedBox(
-                height: isLandscape
-                    ? availableheight * 0.7
-                    : availableheight * 0.25,
-                child: Chart(_recentTransaction),
-              ),
-            if (!_showChart || !isLandscape)
-              SizedBox(
-                  height: availableheight * 0.75,
-                  child: TransactionList(_transactions, _deleteTransaction)),
-          ],
-        ),
+
+    final bodyPage = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (_showChart || !isLandscape)
+            SizedBox(
+              height:
+                  isLandscape ? availableheight * 0.7 : availableheight * 0.25,
+              child: Chart(_recentTransaction),
+            ),
+          if (!_showChart || !isLandscape)
+            SizedBox(
+                height: isLandscape ? availableheight : availableheight * 0.75,
+                child: TransactionList(_transactions, _deleteTransaction)),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => _openTransactionFormModal(context),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+
+    final actions = [
+      if (MediaQuery.of(context).orientation == Orientation.landscape)
+        _getIconButton(
+          () {
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
+          _showChart ? Icons.bar_chart : Icons.list,
+        ),
+      _getIconButton(
+        () => _openTransactionFormModal(context),
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+      ),
+    ];
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: const Text('Despesas Pessoais'),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: actions,
+              ),
+            ),
+            child: bodyPage,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: bodyPage,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: const Icon(Icons.add),
+                    onPressed: () => _openTransactionFormModal(context),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
   }
 }
