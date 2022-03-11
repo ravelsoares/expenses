@@ -1,7 +1,7 @@
 import 'package:expenses/components/adaptative_button.dart';
+import 'package:expenses/components/adaptative_date_picker.dart';
 import 'package:expenses/components/adaptative_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   const TransactionForm(this.addTransaction, {Key? key}) : super(key: key);
@@ -27,17 +27,9 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.addTransaction(title, value, _selectedDate);
   }
 
-  _showDatePicker() async {
-    showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(DateTime.now().year),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) return;
-      setState(() {
-        _selectedDate = pickedDate;
-      });
+  void selectedDateChanged(DateTime newDate) {
+    setState(() {
+      _selectedDate = newDate;
     });
   }
 
@@ -66,15 +58,9 @@ class _TransactionFormState extends State<TransactionForm> {
                 textController: _valueController,
                 typeInputBoard: const TextInputType.numberWithOptions(),
               ),
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: _showDatePicker,
-                    child: const Icon(Icons.calendar_today),
-                  ),
-                  Text(DateFormat('dd/MM/y').format(_selectedDate)),
-                ],
-              ),
+              AdaptativeDatePicker(
+                  selectedDate: _selectedDate,
+                  onDateChanged: selectedDateChanged),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
