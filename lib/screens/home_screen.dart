@@ -113,23 +113,31 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
-    final bodyPage = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (_showChart || !isLandscape)
-            SizedBox(
-              height:
-                  isLandscape ? availableheight * 0.7 : availableheight * 0.25,
-              child: Chart(_recentTransaction),
-            ),
-          if (!_showChart || !isLandscape)
-            SizedBox(
-                height: isLandscape ? availableheight : availableheight * 0.75,
-                child: TransactionList(_transactions, _deleteTransaction)),
-        ],
+    final bodyPage = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (_showChart || !isLandscape)
+              SizedBox(
+                height: isLandscape
+                    ? availableheight * 0.7
+                    : availableheight * 0.25,
+                child: Chart(_recentTransaction),
+              ),
+            if (!_showChart || !isLandscape)
+              SizedBox(
+                  height:
+                      isLandscape ? availableheight : availableheight * 0.75,
+                  child: TransactionList(_transactions, _deleteTransaction)),
+          ],
+        ),
       ),
     );
+
+    final iconList = Platform.isIOS ? CupertinoIcons.list_bullet : Icons.list;
+    final iconChart =
+        Platform.isIOS ? CupertinoIcons.chart_bar_alt_fill : Icons.bar_chart;
 
     final actions = [
       if (MediaQuery.of(context).orientation == Orientation.landscape)
@@ -139,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _showChart = !_showChart;
             });
           },
-          _showChart ? Icons.bar_chart : Icons.list,
+          _showChart ? iconChart : iconList,
         ),
       _getIconButton(
         () => _openTransactionFormModal(context),

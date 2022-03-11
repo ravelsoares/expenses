@@ -21,6 +21,7 @@ class ExpensesApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: const [Locale('pt', 'BR')],
