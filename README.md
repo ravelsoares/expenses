@@ -1,16 +1,22 @@
-# expenses
+# Expenses
 
-A new Flutter project.
+Projeto desenvolvido em flutter que tem como objetivo cadastrar transações financeiras e gerar um gráfico de gastos dos últimos sete dias.
 
-## Getting Started
+## Conteúdos aprendidos e/ou exercitados:
+<ul>
+  <li>Construção de telas</li>
+  <li>Componetização de Widgets</li>
+  <li>Manipulação de lista</li>
+  <li>Uso do Calendário</li>
+  <li>Manipulação de datas</li>
+  <li>Responsividade</li>
+  <li>Adaptatividade</li>
+  <li>Persistência de dados</li>
+</ul>
 
-This project is a starting point for a Flutter application.
+### Confira algumas imagens
 
-A few resources to get you started if this is your first Flutter project:
+ ​![​home_screen](https://github.com/ravelsoares/expenses/blob/main/Screenshot_20220330-170241.jpg) 
+ ​![​list_transactions](https://github.com/ravelsoares/expenses/blob/main/Screenshot_20220330-170538.jpg)
+ ​![​calendar](https://github.com/ravelsoares/expenses/blob/main/Screenshot_20220330-170440.jpg) 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
